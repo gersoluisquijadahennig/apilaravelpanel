@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/register', [UserController::class, 'store']);
     Route::get('show/{user}', [UserController::class, 'show'])->name('user.show');
     Route::delete('show/{user}', [UserController::class, 'destroy'])->name('user.delete');
+
+
+/**
+ * login
+ */
+
+ Route::post('login',[AuthController::class,'login'])->name('user.login');
+
+ /**
+  * logout
+  */
+Route::middleware('auth:sanctum')->group(function(){
+
+      Route::post('logout',[AuthController::class,'logout'])->name('user.logout');
+      
+  });
+  
