@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::withTrashed()->paginate(2);
+        return response()->json($users);
     }
 
     /**
@@ -30,35 +31,28 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request): RedirectResponse
+    public function store(UserRequest $request)
     {
-        $validated = $request->validated();
 
-        $user = User::create(
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]
-            );
-
+        $user = new User($request->all());
+        $user->save();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        
         return response()->json([
             'data' => $user,
             'access_token' => $token,
-            'token_type' =>  'Bearer'
-        ],200);
+            'token_type' => 'Bearer'
+        ], 200);
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
-        //
+        return response()->json(['data' => $user],200);
     }
 
     /**
@@ -74,7 +68,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user = new User($request->all());
+        $user->update();
+
+        return response()->json([
+            'data' => $user,
+        ], 200);
     }
 
     /**
@@ -82,6 +81,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json(['message'=> 'Usuario Borrado'],200 );
     }
 }
