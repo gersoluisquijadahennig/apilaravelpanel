@@ -19,7 +19,8 @@ class UserLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            //'email' => 'required|email',
+            'run' => 'required|string',
             'password' => 'required|string|min:6',
         ];
     }
@@ -34,8 +35,9 @@ class UserLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'El formato del correo electrónico es inválido.',
+            //'email.required' => 'El correo electrónico es obligatorio.',
+            //'email.email' => 'El formato del correo electrónico es inválido.',
+            'rut.required' => 'El RUT es obligatorio.',
             'password.required' => 'La contraseña es obligatoria.',
         ];
     }
