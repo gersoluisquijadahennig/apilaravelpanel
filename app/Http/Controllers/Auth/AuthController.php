@@ -65,4 +65,23 @@ class AuthController extends Controller
             'message' => 'Logout Correcto'
         ]);
     }
+
+    public function loginuser(Request $request)
+    {
+
+
+        $user = User::find($request->header('X-User-ID')); // Obtener el usuario por su ID
+
+       // dd($user);
+
+        if ($user) {
+        // Token y usuario válidos, realizar la lógica para iniciar sesión
+        // ...
+        return response()->json(['message' => 'Usuario autenticado'], 200);
+        } else {
+        // Token o usuario inválidos
+        return response()->json(['error' => 'Usuario o token inválidos'], 401);
+    }
+    }
 }
+
